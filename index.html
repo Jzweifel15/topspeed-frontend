@@ -31,13 +31,23 @@
           Build onto your own driver card by adding a new car.
         </p>
       </div>
-      <div class="welcome-form">
-        <form>
-          <div class="form-control">
-            <input type="text" name="search" placeholder="Search Cars" required>
-          </div>
-          <input type="submit" value="Search">
-        </form>
+      <div class="select-card">
+        <h2>Select a Car</h2>
+        <div class="grid-3">
+          <select name="make" id="make">
+            <option value="Chevrolet">Chevrolet</option>
+          </select>
+          <select name="model" id="model">
+            <option value="corvette">Corvette</option>
+          </select>
+          <select name="year" id="year">
+            <option value="1997-2004">1997-2004</option>
+            <option value="2005-2013">2005-2013</option>
+            <option value="2014-2019">2014-2019</option>
+            <option value="2020-Present">2020-Present</option>
+          </select>
+          <button>Search</button>
+        </div>
       </div>
     </div>
   </section>

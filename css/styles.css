@@ -29,7 +29,6 @@ a {
 
 h1, h2 {
   font-weight: 300;
-  margin: 10px 0;
 }
 
 img {
@@ -53,6 +52,15 @@ img {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -109,48 +117,41 @@ img {
   animation: slideInFromLeft 1s ease-in;
 }
 
-.welcome-form {
+.select-card {
   background-color: #fff;
   border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   position: relative;
-  top: 10px;
-  height: 175px;
-  width: 400px;
+  height: 300px;
+  width: 450px;
   padding: 40px;
   z-index: 100;
   justify-self: flex-end;
   animation: slideInFromRight 1s ease-in;
 }
 
-.wolcome-fomr .form-control {
-  margin: 30px 0;
+.select-card h2 {
+  color: #333;
+  margin-bottom: 5px;
 }
 
-.welcome-form input[type="text"] {
-  border: 0;
-  border-bottom: 1px solid #b4becb;
-  width: 100%;
-  padding: 3px;
-  font-size: 16px;
+.select-card select {
+  width: 125px;
+  height: 25px;
 }
 
-.welcome-form input[type="submit"] {
+.select-card button {
   display: inline-block;
-  margin: 35px 0;
-  padding: 10px 30px;
   cursor: pointer;
+  padding: 10px 30px;
   color: #fff;
   border: none;
   border-radius: 5px;
   background-color: var(--primary-color);
 }
 
-.welcome-form input[type="submit"]:hover {
+.select-card button:hover {
   transform: scale(0.98);
-}
-
-.welcome-form input:focus {
-  outline: none;
 }
 
 .welcome::before,
