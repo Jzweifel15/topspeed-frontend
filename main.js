@@ -1,30 +1,39 @@
 document.addEventListener("DOMContentLoaded", function() {
   const ROOT_URL = "http://localhost:3000/";
+  const DRIVERS_URL = `${ROOT_URL}/drivers`;
   const CARS_URL = `${ROOT_URL}/cars`;
 
-  let driversSection = document.getElementsByClassName("drivers");
-  let driversData = [];
+  let driversSection = document.getElementById("drivers-section");
+  let allDrivers = [];
 
+  // Constructor Function for Models
+  function Driver(id, name, email) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+  };
+
+  function Car(id, make, model, year, description, imageUrl, driver_id) {
+    this.id = id;
+    this.make = make;
+    this.model = model;
+    this.year = year;
+    this.description = description;
+    this.imageUrl = imageUrl;
+    this.driver_id = driver_id;
+  };
+
+  // Fetch data from backend
   fetch(ROOT_URL)
   .then(response => response.json())
   .then(drivers => {
-    //console.log(drivers);  // For debugging
+    //console.log(drivers);
     drivers.forEach(driver => {
-      let card = document.createElement("div");
-      card.className = "card";
-
-      let driverNameHeader = document.createElement("h2");
-      driverNameHeader.className = "driver-header";
-      driverNameHeader.innerText = driver.name;
-      //console.log(driverNameHeader);   // for debugging
-
-      card.appendChild(driverNameHeader);
-      console.log(card);    // for debugging
-
-      driversData.push(card);
-    })
+      let newDriver = new Driver(driver.id, driver.name, driver.email);
+      allDrivers.push(newDriver);
+    });
   }); 
 
-  console.log(driversData);
+  console.log(allDrivers);
 
 });
