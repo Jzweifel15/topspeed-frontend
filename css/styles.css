@@ -105,6 +105,10 @@ img {
   gap: 30px;
 }
 
+.welcome-text {
+  animation: slideInFromLeft 1s ease-in;
+}
+
 .welcome-form {
   background-color: #fff;
   border-radius: 10px;
@@ -115,6 +119,7 @@ img {
   padding: 40px;
   z-index: 100;
   justify-self: flex-end;
+  animation: slideInFromRight 1s ease-in;
 }
 
 .wolcome-fomr .form-control {
@@ -157,4 +162,23 @@ img {
   right: 0;
   left: 0;
   background: #fff;
+}
+
+/* Keyframe Animations */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
