@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   let driversSection = document.getElementById("drivers-section");
   let allDrivers = [];
+  let allCars = [];
 
   // Constructor Function for Models
   function Driver(id, name, email) {
@@ -23,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
     this.driver_id = driver_id;
   };
 
-  // Fetch data from backend
+  // Fetch Driver data from backend
   fetch(ROOT_URL)
   .then(response => response.json())
   .then(drivers => {
@@ -34,6 +35,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }); 
 
+  // Fetch Car data from backend
+  fetch(CARS_URL)
+  .then(response => response.json())
+  .then(cars => {
+    //console.log(cars);
+    cars.forEach(car => {
+      let newCar = new Car(car.id, car.make, car.model, car.year, car.description, car.imageUrl, car.driver_id);
+      allCars.push(newCar);
+    });
+  });
+
   console.log(allDrivers);
+  console.log(allCars);
 
 });
