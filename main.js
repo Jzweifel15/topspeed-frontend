@@ -1,14 +1,22 @@
 class Car
 {
+  static allCars = [];
+
   constructor(id, make, model, year, description, imageUrl, driver_id)
   {
-    this.id = id;
-    this.make = make;
-    this.model = model;
-    this.year = year;
-    this.description = description;
-    this.imageUrl = imageUrl;
-    this.driver_id = driver_id;
+    this._id = id;
+    this._make = make;
+    this._model = model;
+    this._year = year;
+    this._description = description;
+    this._imageUrl = imageUrl;
+    this._driver_id = driver_id;
+    Car.allCars.push(this);
+  }
+
+  static get all()
+  {
+    return Car.allCars;
   }
 }
 
@@ -26,21 +34,17 @@ let yearSelectbox = document.querySelector("#year");
 fetch(CARS_URL)
 .then(response => response.json())
 .then(cars => {
-  //console.log(cars);
+  console.log(cars);
+  cars.forEach(car => {
+    new Car(car.id, car.make, car.model, car.model, car.description, car.imageUrl, car.driver_id);
+  });
+
   for (let i = 0; i < cars.length; i++)
   {
-    let newCar = new Car(cars[i].id, cars[i].make, cars[i].model, cars[i].year, cars[i].description, cars[i].driver_id);
     let makeOption = document.createElement("option");
-    let modelOption = document.createElement("option");
-    let yearOption = document.createElement("option");
 
     // Add Car data to selectbox with id="make"
-    if (i === 0)
-    {
-      makeOption.text = cars[i].make;
-      makeSelectbox.appendChild(makeOption);
-    }
-    else if (cars[i].make !== cars[i - 1].make)
+    if (i === 0 || cars[i].make !== cars[i - 1].make)
     {
       makeOption.text = cars[i].make;
       makeSelectbox.appendChild(makeOption);
@@ -48,3 +52,17 @@ fetch(CARS_URL)
   }
 });
 
+// Event Listeners
+modelSelectbox.addEventListener("change", listenForkMakeSelectboxToHaveAValue(modelSelectbox.selectedOptions[0].value));
+
+function listenForkMakeSelectboxToHaveAValue(selectedMake)
+{
+  // let modelOption = document.createElement("option");
+
+  // if (makeSelectbox.textContent === "Audi")
+  // { 
+
+  // }
+}
+
+console.log(Car.all);
