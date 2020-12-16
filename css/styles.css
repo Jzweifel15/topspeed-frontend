@@ -171,11 +171,13 @@ img {
 #drivers-section {
   margin: 100px auto;
   max-width: 1250px;
+  animation: slideInFromBottom 1s ease-in;
 }
 
 #drivers-section .driver .card {
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
 }
 
 #drivers-section .driver .card:hover {
@@ -197,6 +199,16 @@ img {
   0% {
     transform: translateX(100%);
   }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+  }
+
   100% {
     transform: translateX(0);
   }
