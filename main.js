@@ -34,35 +34,45 @@ let yearSelectbox = document.querySelector("#year");
 fetch(CARS_URL)
 .then(response => response.json())
 .then(cars => {
-  console.log(cars);
+  //console.log(cars);
   cars.forEach(car => {
     new Car(car.id, car.make, car.model, car.model, car.description, car.imageUrl, car.driver_id);
   });
 
-  for (let i = 0; i < cars.length; i++)
+  for (let i = 0; i < Car.all.length; i++)
   {
     let makeOption = document.createElement("option");
 
     // Add Car data to selectbox with id="make"
-    if (i === 0 || cars[i].make !== cars[i - 1].make)
+    if (i === 0 || Car.all[i]._make !== Car.all[i - 1]._make)
     {
-      makeOption.text = cars[i].make;
+      makeOption.text = Car.all[i]._make;
       makeSelectbox.appendChild(makeOption);
     }
-  }
+  }   
 });
 
 // Event Listeners
-modelSelectbox.addEventListener("change", listenForkMakeSelectboxToHaveAValue(modelSelectbox.selectedOptions[0].value));
 
-function listenForkMakeSelectboxToHaveAValue(selectedMake)
-{
-  // let modelOption = document.createElement("option");
+makeSelectbox.addEventListener("change", function() {
+  if (makeSelectbox.value !== "Choose Make")
+  {
+    console.log("Entered makeSelectbox EventListener");
+    console.log(makeSelectbox.text);
+    for (let i = 0; i < Car.all.length; i++)
+    {
+      let modelOption = document.createElement("option");
+      if (Car.all[i]._make === makeSelectbox.value)
+      {
+        if (i === 0 || Car.all[i]._model !== Car.all[i - 1]._model)
+        {
+          modelOption.text = Car.all[i]._model;
+          modelSelectbox.appendChild(modelOption);
+        }
+      }
+    }   
+  }
+});
 
-  // if (makeSelectbox.textContent === "Audi")
-  // { 
 
-  // }
-}
-
-console.log(Car.all);
+// console.log(Car.all);
