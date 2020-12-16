@@ -14,6 +14,21 @@ class Car
     Car.allCars.push(this);
   }
 
+  get make()
+  {
+    return this._make;
+  }
+
+  get model()
+  {
+    return this._model;
+  }
+
+  get year()
+  {
+    return this._year;
+  }
+
   static get all()
   {
     return Car.allCars;
@@ -36,43 +51,67 @@ fetch(CARS_URL)
 .then(cars => {
   //console.log(cars);
   cars.forEach(car => {
-    new Car(car.id, car.make, car.model, car.model, car.description, car.imageUrl, car.driver_id);
+    new Car(car.id, car.make, car.model, car.year, car.description, car.imageUrl, car.driver_id);
   });
 
   for (let i = 0; i < Car.all.length; i++)
   {
     let makeOption = document.createElement("option");
+    let currentCar = Car.all[i];
+    let previousCar = Car.all[i - 1];
 
     // Add Car data to selectbox with id="make"
-    if (i === 0 || Car.all[i]._make !== Car.all[i - 1]._make)
+    if (i === 0 || currentCar.make !== previousCar.make)
     {
-      makeOption.text = Car.all[i]._make;
-      makeSelectbox.appendChild(makeOption);
+      makeOption.text = currentCar.make;
+      makeSelectbox.add(makeOption);
     }
-  }   
+  }
+  
 });
 
 // Event Listeners
+makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
+modelSelectbox.addEventListener("input", addYearsBasedOnModelSelection);
 
-makeSelectbox.addEventListener("change", function() {
+function addModelsBasedOnMakeSelection()
+{
   if (makeSelectbox.value !== "Choose Make")
   {
-    console.log("Entered makeSelectbox EventListener");
-    console.log(makeSelectbox.text);
     for (let i = 0; i < Car.all.length; i++)
     {
       let modelOption = document.createElement("option");
-      if (Car.all[i]._make === makeSelectbox.value)
+      let previousCar = Car.all[i - 1];
+      let currentCar = Car.all[i];
+
+      if (currentCar.make === makeSelectbox.value)
       {
-        if (i === 0 || Car.all[i]._model !== Car.all[i - 1]._model)
+        if (i === 0 || currentCar.model !== previousCar.model)
         {
-          modelOption.text = Car.all[i]._model;
-          modelSelectbox.appendChild(modelOption);
+          modelOption.text = currentCar.model;
+          modelSelectbox.add(modelOption);
         }
       }
     }   
   }
-});
+}
 
+function addYearsBasedOnModelSelection() 
+{
+  if (modelSelectbox.value !== "Choose Model")
+  {
+    for (let i = 0; i < Car.all.length; i++)
+    {
+      let yearOption = document.createElement("option");
+      let currentCar = Car.all[i];
+      
+      if (currentCar.model === modelSelectbox.value)
+      {
+        yearOption.text = currentCar.year;
+        yearSelectbox.add(yearOption);
+      }
+    }
+  }
+}
 
-// console.log(Car.all);
+//console.log(Car.all);
