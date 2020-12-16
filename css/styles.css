@@ -132,17 +132,19 @@ img {
 
 .select-card h2 {
   color: #333;
-  margin-bottom: 5px;
+  margin-bottom: 25px;
 }
 
 .select-card select {
   width: 125px;
   height: 25px;
+  margin: 20px 0;
 }
 
-.select-card button {
+.select-card form input[type="submit"] {
   display: inline-block;
   cursor: pointer;
+  margin: 20px 0;
   padding: 10px 30px;
   color: #fff;
   border: none;
@@ -150,7 +152,7 @@ img {
   background-color: var(--primary-color);
 }
 
-.select-card button:hover {
+.select-card form input[type="submit"]:hover {
   transform: scale(0.98);
 }
 
