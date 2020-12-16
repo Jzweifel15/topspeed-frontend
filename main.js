@@ -15,6 +15,11 @@ class Car
     Car.allCars.push(this);
   }
 
+  get id()
+  {
+    return this._id;
+  }
+
   get make()
   {
     return this._make;
@@ -36,9 +41,28 @@ class Car
   }
 }
 
+class DriversCar 
+{
+  static allDriversCars = [];
+
+  constructor(id, car_id, driver_id)
+  {
+    this._id = id;
+    this._car_id = car_id;
+    this._driver_id = driver_id;
+    DriversCar.allDriversCars.push(this);
+  }
+
+  static get all()
+  {
+    return DriversCar.allDriversCars;
+  }
+}
+
 const ROOT_URL = "http://localhost:3000/";
 const DRIVERS_URL = `${ROOT_URL}/drivers`;
 const CARS_URL = `${ROOT_URL}/cars`;
+const DRIVERS_CARS_URL = `${ROOT_URL}/drivers_cars`
 
 let driversSection = document.getElementById("drivers-section");
 let driverCard = document.querySelector("div.driver.card");
@@ -50,7 +74,6 @@ let yearSelectbox = document.querySelector("#year");
 fetch(CARS_URL)
 .then(response => response.json())
 .then(cars => {
-  //console.log(cars);
   cars.forEach(car => {
     new Car(car.id, car.make, car.model, car.year, car.description, car.imageUrl, car.msrp, car.topspeed);
   });
@@ -71,14 +94,21 @@ fetch(CARS_URL)
   
 });
 
+// Fetch All of Driver's Cars from backend
+fetch(DRIVERS_CARS_URL)
+.then(response => response.json())
+.then(driversCars => {
+  driversCars.forEach(driversCar => {
+    new DriversCar(driversCar.id, driversCar.car_id, driversCar.driver_id);
+  });
+});
+
 // Event Listeners
 makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
 modelSelectbox.addEventListener("input", addYearsBasedOnModelSelection);
 document.querySelector("form").addEventListener("submit", function(e) {
   e.preventDefault();
-  let selectedMake = makeSelectbox.value;
-  let selectedModel = modelSelectbox.value;
-  let selectYear = yearSelectbox.value;
+  let selectedCar = getTheSelectedCarsId();
 
   let configObj = {
     method: "POST",
@@ -87,14 +117,22 @@ document.querySelector("form").addEventListener("submit", function(e) {
       "Accept": "application/json"
     },
     body: JSON.stringify({
-      
+      car_id: selectedCar,
+      driver_id: 1
     })
   }
 
-  console.log(selectedMake);
-  console.log(selectedModel);
-  console.log(selectYear);
-})
+  console.log(configObj);
+  
+  fetch(DRIVERS_CARS_URL, configObj)
+  .then(response => response.json())
+  .then(data => {
+    console.log("Success: ", data);
+  })
+  .catch(error => {
+    console.error("Error: ", error);
+  });
+});
 
 function addModelsBasedOnMakeSelection()
 {
@@ -135,3 +173,17 @@ function addYearsBasedOnModelSelection()
     }
   }
 }
+
+function getTheSelectedCarsId()
+{
+  for (let i = 0; i < Car.all.length; i++)
+  {
+    let currentCar = Car.all[i];
+    if (modelSelectbox.value === currentCar.model && yearSelectbox.value === currentCar.year)
+    {
+      return currentCar.id;
+    }
+  }
+}
+
+console.log(DriversCar.all);
