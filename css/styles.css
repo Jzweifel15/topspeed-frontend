@@ -167,6 +167,12 @@ img {
   background: #fff;
 }
 
+/* Driver's Card Section */
+#drivers-section {
+  margin: 100px auto;
+  max-width: 1250px;
+}
+
 /* Keyframe Animations */
 @keyframes slideInFromLeft {
   0% {

@@ -2,7 +2,7 @@ class Car
 {
   static allCars = [];
 
-  constructor(id, make, model, year, description, imageUrl, driver_id)
+  constructor(id, make, model, year, description, imageUrl, msrp, topspeed)
   {
     this._id = id;
     this._make = make;
@@ -10,7 +10,8 @@ class Car
     this._year = year;
     this._description = description;
     this._imageUrl = imageUrl;
-    this._driver_id = driver_id;
+    this._msrp = msrp;
+    this._topspeed = topspeed;
     Car.allCars.push(this);
   }
 
@@ -51,7 +52,7 @@ fetch(CARS_URL)
 .then(cars => {
   //console.log(cars);
   cars.forEach(car => {
-    new Car(car.id, car.make, car.model, car.year, car.description, car.imageUrl, car.driver_id);
+    new Car(car.id, car.make, car.model, car.year, car.description, car.imageUrl, car.msrp, car.topspeed);
   });
 
   for (let i = 0; i < Car.all.length; i++)
