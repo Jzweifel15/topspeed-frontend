@@ -173,6 +173,16 @@ img {
   max-width: 1250px;
 }
 
+#drivers-section .driver .card {
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+#drivers-section .driver .card:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
 /* Keyframe Animations */
 @keyframes slideInFromLeft {
   0% {
