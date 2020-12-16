@@ -73,6 +73,9 @@ fetch(CARS_URL)
 // Event Listeners
 makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
 modelSelectbox.addEventListener("input", addYearsBasedOnModelSelection);
+document.querySelector("form").addEventListener("submit", function(e) {
+  e.preventDefault();
+})
 
 function addModelsBasedOnMakeSelection()
 {
@@ -104,7 +107,7 @@ function addYearsBasedOnModelSelection()
     {
       let yearOption = document.createElement("option");
       let currentCar = Car.all[i];
-      
+
       if (currentCar.model === modelSelectbox.value)
       {
         yearOption.text = currentCar.year;
