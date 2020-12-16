@@ -76,6 +76,24 @@ makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
 modelSelectbox.addEventListener("input", addYearsBasedOnModelSelection);
 document.querySelector("form").addEventListener("submit", function(e) {
   e.preventDefault();
+  let selectedMake = makeSelectbox.value;
+  let selectedModel = modelSelectbox.value;
+  let selectYear = yearSelectbox.value;
+
+  let configObj = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify({
+      
+    })
+  }
+
+  console.log(selectedMake);
+  console.log(selectedModel);
+  console.log(selectYear);
 })
 
 function addModelsBasedOnMakeSelection()
@@ -117,5 +135,3 @@ function addYearsBasedOnModelSelection()
     }
   }
 }
-
-//console.log(Car.all);
