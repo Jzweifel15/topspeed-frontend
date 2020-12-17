@@ -4,6 +4,7 @@
   --primary-color: #ff7733;
   --dark-color: #b33c00;
   --light-color: #ffaa80;
+  --alert-color: #ff3333;
 }
 
 * {
@@ -182,8 +183,27 @@ img {
 
 #drivers-section .driver .card:hover {
   transform: scale(1.02);
-  cursor: pointer;
 }
+
+#drivers-section .driver .card .car-card .icons {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.car-card form i {
+  font-size: 25px;
+}
+
+.car-card form button[type="submit"] {
+  display: inline-block;
+  cursor: pointer;
+  margin: 20px 0;
+  padding: 5px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--alert-color);
+}
+
 
 /* Keyframe Animations */
 @keyframes slideInFromLeft {
