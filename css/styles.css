@@ -189,11 +189,11 @@ img {
   grid-template-columns: repeat(3, 1fr);
 }
 
-.car-card form i {
+.car-card .icons i {
   font-size: 25px;
 }
 
-.car-card form button[type="submit"] {
+#card-form button[type="submit"] {
   display: inline-block;
   cursor: pointer;
   margin: 20px 0;
