@@ -1,6 +1,7 @@
 // ---------- Beginning of Class Declarations ----------
 class Car
 {
+
   static allCars = [];
 
   constructor(id, make, model, year, description, imageUrl, msrp, topSpeed)
@@ -139,9 +140,14 @@ fetch(DRIVERS_CARS_URL)
 // Event Listeners
 makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
 modelSelectbox.addEventListener("input", addYearsBasedOnModelSelection);
-document.querySelector("form").addEventListener("submit", function(e) {
+document.getElementById("new-car-form").addEventListener("submit", function(e) {
   e.preventDefault();
   addNewCarToDatabaseForDriver();
+});
+
+document.getElementById("delete-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  console.log(e.target);
 });
 
 // Callback functions for event-listeners
@@ -212,8 +218,6 @@ function addNewCarToDatabaseForDriver()
       driver_id: 1
     })
   }
-
-  console.log(configObj);
   
   fetch(DRIVERS_CARS_URL, configObj)
   .then(response => response.json())
@@ -225,8 +229,25 @@ function addNewCarToDatabaseForDriver()
   });
 }
 
-function buildDriversCarsElements(year, make, model, imageUrl, description, msrp, topSpeed)
+function deleteDriversCarFromDatabase()
 {
+  let driversCarId = "";
+
+  // let configObj = {
+  //   method: "DELETE",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Accept": "application/json"
+  //   },
+  //   body: JSON.stringify({
+  //     id: 
+  //   })
+  // }
+}
+
+function buildDriversCarsElements(carId, year, make, model, imageUrl, description, msrp, topSpeed)
+{
+  // Create the necessary elements for each car's card
   let carCard = document.createElement("div");
   let cardHeading = document.createElement("h3");
   let cardImg = document.createElement("img");
@@ -242,10 +263,12 @@ function buildDriversCarsElements(year, make, model, imageUrl, description, msrp
 
   // Set new element attributes
   carCard.className = "car card";
+  carCard.id = `${carId}`;
   carCardIcons.className = "car-card icons";
   msrpIcon.className = "fas fa-money-check-alt fa-2x";
   topSpeedIcon.className = "fas fa-tachometer-alt fa-2x";
   trashIcon.className = "fas fa-trash-alt fa-2x";
+  formForTrashBtn.id = "delete-form";
   cardHeading.innerText = `${year} ${make} ${model}`;
   cardImg.src = `${imageUrl}`;
   cardDesc.innerText = `${description}`;
@@ -256,18 +279,11 @@ function buildDriversCarsElements(year, make, model, imageUrl, description, msrp
   // Add Elements to proper containers
   formTrashBtn.appendChild(trashIcon);
 
-  formForTrashBtn.appendChild(msrpIcon);
-  formForTrashBtn.appendChild(msrpLabel);
-  formForTrashBtn.appendChild(topSpeedIcon);
-  formForTrashBtn.appendChild(topSpeedLabel);
-  formForTrashBtn.appendChild(formTrashBtn);
+  formForTrashBtn.append(msrpIcon, msrpLabel, topSpeedIcon, topSpeedLabel, formTrashBtn);
 
   carCardIcons.appendChild(formForTrashBtn);
 
-  carCard.appendChild(cardHeading);
-  carCard.appendChild(cardImg);
-  carCard.appendChild(cardDesc);
-  carCard.appendChild(carCardIcons);
+  carCard.append(cardHeading, cardImg, cardDesc, carCardIcons);
 
   carsGrid3.appendChild(carCard);
 }
@@ -284,7 +300,7 @@ function buildDriversCarsCards()
         let currentCar = Car.all[j];
         if (currentCar.id === currentDriversCar.carId)
         {
-          buildDriversCarsElements(currentCar.year, currentCar.make, currentCar.model, currentCar.imageUrl, currentCar.description, currentCar.msrp, currentCar.topSpeed);
+          buildDriversCarsElements(currentCar.id, currentCar.year, currentCar.make, currentCar.model, currentCar.imageUrl, currentCar.description, currentCar.msrp, currentCar.topSpeed);
         }
       }
     }
@@ -292,5 +308,3 @@ function buildDriversCarsCards()
 }
 
 // Debugging Area
-console.log(Car.all);
-console.log(DriversCar.all);
