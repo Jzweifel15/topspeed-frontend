@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   })
   .then(cars => {
-    cars.forEach(car => {
-      new Car(car.id, car.make, car.model, car.year, car.description, car.imageUrl, car.msrp, car.topspeed);
+    cars.forEach(attrs => {
+      new Car(attrs);
     });
-  
+
     for (let i = 0; i < Car.all.length; i++)
     {
       let makeOption = document.createElement("option");
@@ -44,16 +44,44 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   });
+
+  fetch("http://localhost:3000/drivers/1", {
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => {
+    if (response.ok)
+    {
+      return response.json();
+    }
+    else 
+    {
+      return response.text().then(error => Promise.reject(error));
+    }
+  })
+  .then(obj => {
+    let driversCars = [];
+
+    for (let i = 0; i < obj.data.relationships.cars.data.length; i++)
+    {
+      driversCars.push(obj.data.relationships.cars.data[i]);
+    }
+
+    let newDriver = new Driver(obj.data.attributes);
+    newDriver.cars = Array.from(driversCars);
+  });
   
   // Fetch All of Driver's Cars from backend
-  fetch(DRIVERS_CARS_URL)
-  .then(response => response.json())
-  .then(driversCars => {
-    driversCars.forEach(driversCar => {
-      new DriversCar(driversCar.id, driversCar.car_id, driversCar.driver_id);
-    });
-    buildDriversCarsCards();
-  });
+  // fetch(DRIVERS_CARS_URL)
+  // .then(response => response.json())
+  // .then(driversCars => {
+  //   driversCars.forEach(driversCar => {
+  //     new DriversCar(driversCar.id, driversCar.car_id, driversCar.driver_id);
+  //   });
+  //   buildDriversCarsCards();
+  // });
   
   // Event Listeners
   makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
@@ -221,7 +249,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  console.log(Car.all);
-  console.log(DriversCar.all);
 
 });

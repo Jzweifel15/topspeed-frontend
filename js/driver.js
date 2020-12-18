@@ -1,27 +1,9 @@
-class DriversCar 
+class Driver
 {
-  static allDriversCars = [];
-
-  constructor(id, carId, driverId)
+  constructor(attributes)
   {
-    this._id = id;
-    this._carId = carId;
-    this._driverId = driverId;
-    DriversCar.allDriversCars.push(this);
-  }
-
-  get driverId()
-  {
-    return this._driverId;
-  }
-
-  get carId()
-  {
-    return this._carId;
-  }
-
-  static get all()
-  {
-    return DriversCar.allDriversCars;
+    let whitelist = ["name", "email"];
+    whitelist.forEach(attr => this[attr] = attributes[attr]);
+    this.cars = [];
   }
 }
