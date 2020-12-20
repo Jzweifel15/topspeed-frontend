@@ -1,94 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const ROOT_URL = "http://localhost:3000/";
-  const DRIVERS_CARS_URL = `${ROOT_URL}/drivers_cars`
-  
   let driversSection = document.getElementById("drivers-section");
   let carsGrid3 = document.getElementById("cars-grid");
   let makeSelectbox = document.getElementById("make-select");
   let modelSelectbox = document.getElementById("model-select");
   let yearSelectbox = document.getElementById("year-select"); 
   
-  // Fetch Car data from backend
-  fetch("http://localhost:3000/cars", {
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    }
-  })
-  .then(response => {
-    if (response.ok)
-    {
-      return response.json();
-    }
-    else 
-    {
-      return response.text().then(error => Promise.reject(error));
-    }
-  })
-  .then(cars => {
-    cars.forEach(attrs => {
-      new Car(attrs);
-    });
-
-    for (let i = 0; i < Car.all.length; i++)
-    {
-      let makeOption = document.createElement("option");
-      let currentCar = Car.all[i];
-      let previousCar = Car.all[i - 1];
-  
-      // Add Car data to selectbox with id="make"
-      if (i === 0 || currentCar.make !== previousCar.make)
-      {
-        makeOption.text = currentCar.make;
-        document.getElementById("make-select").add(makeOption);
-      }
-    }
-  });
-
-  fetch("http://localhost:3000/drivers/1", {
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    }
-  })
-  .then(response => {
-    if (response.ok)
-    {
-      return response.json();
-    }
-    else 
-    {
-      return response.text().then(error => Promise.reject(error));
-    }
-  })
-  .then(obj => {
-    let driversCars = [];
-
-    for (let i = 0; i < obj.data.relationships.cars.data.length; i++)
-    {
-      driversCars.push(obj.data.relationships.cars.data[i]);
-    }
-
-    let newDriver = new Driver(obj.data.attributes);
-    newDriver.cars = Array.from(driversCars);
-  });
-  
-  // Fetch All of Driver's Cars from backend
-  // fetch(DRIVERS_CARS_URL)
-  // .then(response => response.json())
-  // .then(driversCars => {
-  //   driversCars.forEach(driversCar => {
-  //     new DriversCar(driversCar.id, driversCar.car_id, driversCar.driver_id);
-  //   });
-  //   buildDriversCarsCards();
-  // });
+  Car.fetchCars();
+  Driver.fetchDriver();
+  DriversCar.fetchDriversCars(buildDriversCarsCards);
   
   // Event Listeners
   makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
+
   modelSelectbox.addEventListener("input", addYearsBasedOnModelSelection);
+
   document.getElementById("new-car-form").addEventListener("submit", function(e) {
     e.preventDefault();
-    addNewCarToDatabaseForDriver();
+    DriversCar.addNewCarToDatabaseForDriver(getTheSelectedCarsId);
   });
   
   document.getElementById("card-form").addEventListener("submit", function(e) {
@@ -97,6 +25,10 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   
   // Callback functions for event-listeners
+  /**
+   * Adds the proper model options to the selectbox with id="model-select" based on the current selection
+   * of the selectbox with id="make-select"
+   */
   function addModelsBasedOnMakeSelection()
   {
     if (makeSelectbox.value !== "Choose Make")
@@ -119,6 +51,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
   
+  /**
+   * Adds the proper year options to the selectbox with id="year-select" based on the current selection
+   * of the selectbox with id="model-select"
+   */
   function addYearsBasedOnModelSelection() 
   {
     if (modelSelectbox.value !== "Choose Model")
@@ -137,6 +73,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
   
+  /**
+   * Gets the `id` of the drivers currently selected car
+   */
   function getTheSelectedCarsId()
   {
     for (let i = 0; i < Car.all.length; i++)
@@ -147,51 +86,9 @@ document.addEventListener("DOMContentLoaded", function() {
         return currentCar.id;
       }
     }
-  }
+  } 
   
-  function addNewCarToDatabaseForDriver()
-  {
-    let selectedCar = getTheSelectedCarsId();
-  
-    let configObj = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({
-        car_id: selectedCar,
-        driver_id: 1
-      })
-    }
-    
-    fetch(DRIVERS_CARS_URL, configObj)
-    .then(response => response.json())
-    .then(data => {
-      console.log("Success: ", data);
-    })
-    .catch(error => {
-      console.error("Error: ", error);
-    });
-  }
-  
-  // function deleteDriversCarFromDatabase()
-  // {
-  //   let driversCarId = "";
-  
-  //   let configObj = {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "Accept": "application/json"
-  //     },
-  //     body: JSON.stringify({
-  //       id: 
-  //     })
-  //   }
-  // }
-  
-  function buildDriversCarsElements(year, make, model, imageUrl, description, msrp, topSpeed)
+  function buildDriversCarsElements(carObj)
   {
     // Create the necessary elements for each car's card
     let carCard = document.createElement("form");
@@ -213,11 +110,11 @@ document.addEventListener("DOMContentLoaded", function() {
     msrpIcon.className = "fas fa-money-check-alt fa-2x";
     topSpeedIcon.className = "fas fa-tachometer-alt fa-2x";
     trashIcon.className = "fas fa-trash-alt fa-2x";
-    cardHeading.innerText = `${year} ${make} ${model}`;
-    cardImg.src = `${imageUrl}`;
-    cardDesc.innerText = `${description}`;
-    msrpLabel.innerText = `$${msrp}`;
-    topSpeedLabel.innerText = `${topSpeed}mph`;
+    cardHeading.innerText = `${carObj.year} ${carObj.make} ${carObj.model}`;
+    cardImg.src = `${carObj.imageUrl}`;
+    cardDesc.innerText = `${carObj.description}`;
+    msrpLabel.innerText = `$${carObj.msrp}`;
+    topSpeedLabel.innerText = `${carObj.topSpeed}mph`;
     formTrashBtn.type = "submit";
   
     // Add Elements to proper containers
@@ -235,14 +132,14 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let i = 0; i < DriversCar.all.length; i++)
     {
       let currentDriversCar = DriversCar.all[i];
-      if (currentDriversCar.driverId === 1)
+      if (currentDriversCar.driver_id === 1)
       {
         for (let j = 0; j < Car.all.length; j++)
         {
           let currentCar = Car.all[j];
-          if (currentCar.id === currentDriversCar.carId)
+          if (currentCar.id === currentDriversCar.car_id)
           {
-            buildDriversCarsElements(currentCar.year, currentCar.make, currentCar.model, currentCar.imageUrl, currentCar.description, currentCar.msrp, currentCar.topSpeed);
+            buildDriversCarsElements(currentCar);
           }
         }
       }
