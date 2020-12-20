@@ -1,55 +1,65 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
 
-:root {
+:root 
+{
   --primary-color: #ff7733;
   --dark-color: #b33c00;
   --light-color: #ffaa80;
   --alert-color: #ff3333;
 }
 
-* {
+* 
+{
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-body {
+body 
+{
   font-family: "Lato", sans-serif;
   color: #333;
   line-height: 1.5;
 }
 
-ul {
+ul 
+{
   list-style-type: none;
 }
 
-a {
+a 
+{
   text-decoration: none;
   color: #333;
 }
 
-h1, h2 {
+h1, h2 
+{
   font-weight: 300;
 }
 
-img {
+img 
+{
   width: 100%;
 }
 
-.container {
+.container 
+{
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 40px;
 }
 
-.flex {
+.flex 
+{
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
 
-.grid {
+.grid 
+{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
@@ -58,67 +68,69 @@ img {
   height: 100%;
 }
 
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
 /* Navbar */
-.navbar {
+.navbar 
+{
   background-color: var(--primary-color);
   color: #fff;
   height: 70px;
 }
 
-.navbar ul {
+.navbar ul 
+{
   display: flex;
 }
 
-.navbar .flex {
+.navbar .flex 
+{
   justify-content: space-between;
 }
 
-.navbar a {
+.navbar a 
+{
   color: #fff;
   padding: 10px;
   margin: 0 5px;
 }
 
-.navbar a:hover {
+.navbar a:hover 
+{
   color: #e6e6e6;
 }
 
 /* Welcome Section */
-.welcome {
+.welcome 
+{
   height: 300px;
   background-color: var(--primary-color);
   color: #fff;
   position: relative;
 }
 
-.welcome h1 {
+.welcome h1 
+{
   font-size: 40px;
 }
 
-.welcome p {
+.welcome p 
+{
   margin: 20px 0;
 }
 
-.welcome .grid {
+.welcome .grid 
+{
   overflow: visible;
   grid-template-columns: 55% auto;
   gap: 30px;
 }
 
-.welcome-text {
+.welcome-text 
+{
   animation: slideInFromLeft 1s ease-in;
 }
 
-.select-card {
+.select-card 
+{
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -131,18 +143,21 @@ img {
   animation: slideInFromRight 1s ease-in;
 }
 
-.select-card h2 {
+.select-card h2 
+{
   color: #333;
   margin-bottom: 25px;
 }
 
-.select-card select {
+.select-card select 
+{
   width: 125px;
   height: 25px;
   margin: 20px 0;
 }
 
-.select-card form input[type="submit"] {
+.select-card form input[type="submit"] 
+{
   display: inline-block;
   cursor: pointer;
   margin: 20px 0;
@@ -153,12 +168,14 @@ img {
   background-color: var(--primary-color);
 }
 
-.select-card form input[type="submit"]:hover {
+.select-card form input[type="submit"]:hover 
+{
   transform: scale(0.98);
 }
 
 .welcome::before,
-.welcome::after {
+.welcome::after 
+{
   content: "";
   position: absolute;
   height: 100px;
@@ -169,31 +186,47 @@ img {
 }
 
 /* Driver's Card Section */
-#drivers-section {
+#drivers-section 
+{
   margin: 100px auto;
   max-width: 1250px;
   animation: slideInFromBottom 1s ease-in;
 }
 
-#drivers-section .driver .card {
+#drivers-section .driver .card 
+{
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease-in-out;
 }
 
-#drivers-section .driver .card:hover {
+#cars-grid
+{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#drivers-section .driver .card:hover 
+{
   transform: scale(1.02);
 }
 
-#drivers-section .driver .card .car-card .icons {
+#drivers-section .driver .card .car-card .icons 
+{
   grid-template-columns: repeat(3, 1fr);
 }
 
-.car-card .icons i {
+.car-card .icons i 
+{
   font-size: 25px;
 }
 
-#card-form button[type="submit"] {
+#card-form button[type="submit"] 
+{
   display: inline-block;
   cursor: pointer;
   margin: 20px 0;
@@ -206,30 +239,98 @@ img {
 
 
 /* Keyframe Animations */
-@keyframes slideInFromLeft {
-  0% {
+@keyframes slideInFromLeft 
+{
+  0% 
+  {
     transform: translateX(-100%);
   }
-  100% {
+  100% 
+  {
     transform: translateX(0);
   }
 }
 
-@keyframes slideInFromRight {
-  0% {
+@keyframes slideInFromRight 
+{
+  0% 
+  {
     transform: translateX(100%);
   }
-  100% {
+  100% 
+  {
     transform: translateX(0);
   }
 }
 
 @keyframes slideInFromBottom {
-  0% {
+  0% 
+  {
     transform: translateY(100%);
   }
 
-  100% {
+  100% 
+  {
     transform: translateX(0);
   }
+}
+
+/* Media Queries for Responsive Design */
+@media(max-width: 750px) 
+{
+  .navbar 
+  {
+    height: 110px;
+  }
+
+  .navbar .flex 
+  {
+    flex-direction: column;
+  }
+
+  .navbar ul 
+  {
+    padding: 10px;
+  }
+
+  .welcome .grid
+  {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .welcome
+  {
+    height: auto;
+  }
+
+  .welcome-text 
+  {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .select-card
+  {
+    justify-self: center;
+    margin: auto;
+  }
+
+  .driver h2
+  {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  #cars-grid
+  {
+    grid-template-columns: 1fr;
+  }
+
+  #card-form
+  {
+    width: 95%;
+    margin: auto;
+  }
+
 }
