@@ -68,6 +68,16 @@ img
   height: 100%;
 }
 
+.grid-3 
+{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 /* Navbar */
 .navbar 
 {
@@ -276,7 +286,7 @@ img
 }
 
 /* Media Queries for Responsive Design */
-@media(max-width: 750px) 
+@media(max-width: 775px) 
 {
   .navbar 
   {

@@ -17,7 +17,7 @@ class Driver
   // Fetch Single Driver from Back-end
   static fetchDriver()
   {
-    fetch("http://localhost:3000/drivers/1", {
+    return fetch("http://localhost:3000/drivers/1", {
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -43,7 +43,6 @@ class Driver
   
       let newDriver = new Driver(obj.data.attributes);
       newDriver.cars = Array.from(driversCars);
-      console.log(newDriver);
     });
   }
 }

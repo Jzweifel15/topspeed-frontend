@@ -17,7 +17,7 @@ class Car
   // Fetch Car data from backend
   static fetchCars()
   {
-    fetch("http://localhost:3000/cars", {
+    return fetch("http://localhost:3000/cars", {
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
