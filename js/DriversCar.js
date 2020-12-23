@@ -34,12 +34,11 @@ class DriversCar
       }
     })
     .then(driversCars => {
-      driversCars.forEach(attrs => {
-        let newDriversCar = new DriversCar(attrs);
+      driversCars.data.forEach(driversCar => {
+        let newDriversCar = new DriversCar(driversCar.attributes);
         this.renderDriversCars(newDriversCar);
       });
     });
-    
   }
 
   // Add new Car for Driver to database
@@ -106,22 +105,23 @@ class DriversCar
       if (currentCar.id === driversCarObj.car_id)
       {
         // Create the necessary elements for each car's card
-        let carCard = document.createElement("form");
+        // let carCard = document.createElement("form");
+        let carCard = document.createElement("div");
         let cardHeading = document.createElement("h3");
         let cardImg = document.createElement("img");
         let cardDesc = document.createElement("p");
-        let carCardIcons = document.createElement("div");
+        let cardIcons = document.createElement("div");
         let msrpIcon = document.createElement("i");
         let topSpeedIcon = document.createElement("i");
         let msrpLabel = document.createElement("strong");
         let topSpeedLabel = document.createElement("strong");
-        let formTrashBtn = document.createElement("button");
         let trashIcon = document.createElement("i");
+        let deleteLink = document.createElement("a");
   
         // Set new element attributes
         carCard.className = "car card";
-        carCard.id = "card-form";
-        carCardIcons.className = "car-card icons";
+        // carCard.id = "card-form";
+        cardIcons.className = "car-card icons";
         msrpIcon.className = "fas fa-money-check-alt fa-2x";
         topSpeedIcon.className = "fas fa-tachometer-alt fa-2x";
         trashIcon.className = "fas fa-trash-alt fa-2x";
@@ -130,14 +130,14 @@ class DriversCar
         cardDesc.innerText = `${currentCar.description}`;
         msrpLabel.innerText = `$${currentCar.msrp}`;
         topSpeedLabel.innerText = `${currentCar.topspeed}mph`;
-        formTrashBtn.type = "submit";
+        deleteLink.id = "delete-link";
   
         // Add Elements to proper containers
-        formTrashBtn.appendChild(trashIcon);
+        deleteLink.appendChild(trashIcon);
     
-        carCardIcons.append(msrpIcon, msrpLabel, topSpeedIcon, topSpeedLabel, formTrashBtn);
+        cardIcons.append(msrpIcon, msrpLabel, topSpeedIcon, topSpeedLabel, deleteLink);
   
-        carCard.append(cardHeading, cardImg, cardDesc, carCardIcons);
+        carCard.append(cardHeading, cardImg, cardDesc, cardIcons);
 
         document.getElementById("cars-grid").appendChild(carCard);
       }

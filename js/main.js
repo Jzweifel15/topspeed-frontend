@@ -19,8 +19,7 @@ document.getElementById("new-car-form").addEventListener("submit", function(e) {
   DriversCar.create();
 });
 
-document.getElementById("card-form").addEventListener("submit", function(e) {
-  e.preventDefault();
+document.getElementById("delete-link").addEventListener("click", function(e) {
   console.log(e.target);
 });
 

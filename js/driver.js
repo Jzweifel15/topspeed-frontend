@@ -33,15 +33,15 @@ class Driver
         return response.text().then(error => Promise.reject(error));
       }
     })
-    .then(obj => {
+    .then(driver => {
       let driversCars = [];
   
-      for (let i = 0; i < obj.data.relationships.cars.data.length; i++)
+      for (let i = 0; i < driver.data.relationships.cars.data.length; i++)
       {
-        driversCars.push(obj.data.relationships.cars.data[i]);
+        driversCars.push(driver.data.relationships.cars.data[i]);
       }
   
-      let newDriver = new Driver(obj.data.attributes);
+      let newDriver = new Driver(driver.data.attributes);
       newDriver.cars = Array.from(driversCars);
     });
   }

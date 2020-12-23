@@ -235,16 +235,20 @@ img
   font-size: 25px;
 }
 
-#card-form button[type="submit"] 
+.car-card a
 {
   display: inline-block;
   cursor: pointer;
-  margin: 20px 0;
+  margin: 2px 5px;
   padding: 5px;
-  color: #fff;
   border: none;
   border-radius: 5px;
   background-color: var(--alert-color);
+}
+
+.car-card a i 
+{
+  color: #fff;
 }
 
 
