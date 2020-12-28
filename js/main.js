@@ -1,14 +1,14 @@
-document.addEventListener("DOMContentLoaded", function() {  
-  Car.fetchCars();
-  Driver.fetchDriver();
-  DriversCar.fetchDriversCars(); 
-});
-
 // let driversSection = document.getElementById("drivers-section");
 // let carsGrid3 = document.getElementById("cars-grid");
 let makeSelectbox = document.getElementById("make-select");
 let modelSelectbox = document.getElementById("model-select");
 let yearSelectbox = document.getElementById("year-select"); 
+
+document.addEventListener("DOMContentLoaded", function() {  
+  Car.fetchCars();
+  Driver.fetchDriver();
+  DriversCar.fetchDriversCars(); 
+});
 
 makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
 

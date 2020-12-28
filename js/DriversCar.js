@@ -35,7 +35,12 @@ class DriversCar
     })
     .then(driversCars => {
       driversCars.data.forEach(driversCar => {
-        let newDriversCar = new DriversCar(driversCar.attributes);
+        let driversCarObj = {
+          "id": driversCar.id,
+          "car_id": driversCar.attributes.car_id,
+          "driver_id": driversCar.attributes.driver_id,
+        }
+        let newDriversCar = new DriversCar(driversCarObj);
         this.renderDriversCars(newDriversCar);
       });
     });
@@ -58,8 +63,6 @@ class DriversCar
         }
       }
     }
-
-    console.log(selectedCar());
     
     return fetch("http://localhost:3000/drivers_cars", {
       method: "POST",
@@ -82,13 +85,12 @@ class DriversCar
         return response.text().then(error => Promise.reject(error));
       }
     })
-    .then(DriversCarAttributes => {
-      console.log("Success: ", DriversCarAttributes);
-      console.log(DriversCarAttributes);
-      let newDriversCar = new DriversCar(DriversCarAttributes[DriversCarAttributes.length - 1]);
-      console.log(newDriversCar);
+    .then(driversCarAttributes => {
+      // console.log("Success: ", driversCarAttributes);
+      console.log(driversCarAttributes)
+      let newDriversCar = new DriversCar(driversCarAttributes);
       this.renderDriversCars(newDriversCar);
-      // return newDriversCar;
+      return newDriversCar;
     })
     .catch(error => {
       console.error("Error: ", error);
