@@ -10,25 +10,11 @@ document.addEventListener("DOMContentLoaded", function() {
   DriversCar.fetchDriversCars(); 
 });
 
-makeSelectbox.addEventListener("input", addModelsBasedOnMakeSelection);
-
-modelSelectbox.addEventListener("input", addYearsBasedOnModelSelection);
-
-document.getElementById("new-car-form").addEventListener("submit", function(e) {
-  e.preventDefault();
-  DriversCar.create();
-});
-
-document.getElementById("delete-link").addEventListener("click", function(e) {
-  console.log(e.target);
-});
-
 /**
  * Adds the proper model options to the selectbox with id="model-select" based on the current selection
  * of the selectbox with id="make-select"
  */
-function addModelsBasedOnMakeSelection()
-{
+makeSelectbox.addEventListener("input", function() {
   if (makeSelectbox.value !== "Choose Make")
   {
     for (let i = 0; i < Car.all.length; i++)
@@ -47,14 +33,13 @@ function addModelsBasedOnMakeSelection()
       }
     }   
   }
-}
-  
+});
+
 /**
  * Adds the proper year options to the selectbox with id="year-select" based on the current selection
  * of the selectbox with id="model-select"
  */
-function addYearsBasedOnModelSelection() 
-{
+modelSelectbox.addEventListener("input", function() {
   if (modelSelectbox.value !== "Choose Model")
   {
     for (let i = 0; i < Car.all.length; i++)
@@ -69,4 +54,20 @@ function addYearsBasedOnModelSelection()
       }
     }
   }
-}
+});
+
+document.getElementById("new-car-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  DriversCar.create();
+});
+
+document.getElementById("cars-grid").addEventListener("click", function(e) {
+  let deleteBtnPressed = e.target.className === "delete-btn fas fa-trash-alt fa-2x";
+  if (deleteBtnPressed)
+  {
+    let id = event.target.parentElement.parentElement.id;
+    DriversCar.delete(id);
+  }
+});
+
+

@@ -14,7 +14,6 @@ class DriversCar
     return DriversCar.allDriversCars;
   }
 
-  // Fetch All of Driver's Cars from backend
   static fetchDriversCars()
   {
     return fetch("http://localhost:3000/drivers_cars", {
@@ -38,12 +37,11 @@ class DriversCar
         let driversCarObj = {
           "id": driversCar.id,
           "car_id": driversCar.attributes.car_id,
-          "driver_id": driversCar.attributes.driver_id,
+          "driver_id": driversCar.attributes.driver_id 
         }
-        let newDriversCar = new DriversCar(driversCarObj);
-        this.renderDriversCars(newDriversCar);
-      });
-    });
+        new DriversCar(driversCarObj);
+      })
+    })
   }
 
   // Add new Car for Driver to database
@@ -86,63 +84,35 @@ class DriversCar
       }
     })
     .then(driversCarAttributes => {
-      // console.log("Success: ", driversCarAttributes);
-      console.log(driversCarAttributes)
-      let newDriversCar = new DriversCar(driversCarAttributes);
-      this.renderDriversCars(newDriversCar);
-      return newDriversCar;
+      let newCar = new DriversCar(driversCarAttributes);
+      Driver.render(newCar.car_id);
     })
     .catch(error => {
       console.error("Error: ", error);
     });
-  } 
+  }
 
-  // static buildCardElements(carObj){}
-
-  static renderDriversCars(driversCarObj)
+  static delete(carId)
   {
-    for (let i = 0; i < Car.all.length; i++)
-    {
-      let currentCar = Car.all[i];
-      if (currentCar.id === driversCarObj.car_id)
+    let driverCarId = function() {
+      for (let i = 0; i < DriversCar.all.length; i++)
       {
-        // Create the necessary elements for each car's card
-        // let carCard = document.createElement("form");
-        let carCard = document.createElement("div");
-        let cardHeading = document.createElement("h3");
-        let cardImg = document.createElement("img");
-        let cardDesc = document.createElement("p");
-        let cardIcons = document.createElement("div");
-        let msrpIcon = document.createElement("i");
-        let topSpeedIcon = document.createElement("i");
-        let msrpLabel = document.createElement("strong");
-        let topSpeedLabel = document.createElement("strong");
-        let trashIcon = document.createElement("i");
-        let deleteLink = document.createElement("a");
-  
-        // Set new element attributes
-        carCard.className = "car card";
-        // carCard.id = "card-form";
-        cardIcons.className = "car-card icons";
-        msrpIcon.className = "fas fa-money-check-alt fa-2x";
-        topSpeedIcon.className = "fas fa-tachometer-alt fa-2x";
-        trashIcon.className = "fas fa-trash-alt fa-2x";
-        cardHeading.innerText = `${currentCar.year} ${currentCar.make} ${currentCar.model}`;
-        cardImg.src = `${currentCar.imageUrl}`;
-        cardDesc.innerText = `${currentCar.description}`;
-        msrpLabel.innerText = `$${currentCar.msrp}`;
-        topSpeedLabel.innerText = `${currentCar.topspeed}mph`;
-        deleteLink.id = "delete-link";
-  
-        // Add Elements to proper containers
-        deleteLink.appendChild(trashIcon);
-    
-        cardIcons.append(msrpIcon, msrpLabel, topSpeedIcon, topSpeedLabel, deleteLink);
-  
-        carCard.append(cardHeading, cardImg, cardDesc, cardIcons);
-
-        document.getElementById("cars-grid").appendChild(carCard);
+        if (parseInt(DriversCar.all[i].car_id) === parseInt(carId))
+        {
+          return DriversCar.all[i].id;
+        }
       }
     }
+
+    return fetch(`http://localhost:3000/drivers_cars/${driverCarId()}`, {
+      method: "DELETE",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(() => {
+      window.location.reload();
+    })
   }
 }
