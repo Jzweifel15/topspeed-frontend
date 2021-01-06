@@ -86,6 +86,7 @@ class DriversCar
     .then(driversCarAttributes => {
       let newCar = new DriversCar(driversCarAttributes);
       Driver.render(newCar.car_id);
+      window.location.reload();
     })
     .catch(error => {
       console.error("Error: ", error);
