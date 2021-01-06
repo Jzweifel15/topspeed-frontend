@@ -9,3 +9,6 @@ Topspeed is a single-page web application that allows a user to search for their
 
 ## Technologies Used
 Topspeed was built using standard front-end web technologies, like HTML5, CSS3, and JavaScript ES6, while using Ruby on Rails as a back-end API that was formatted into JSON.
+
+## Full CRUD
+JavaScript's `fetch()` method was the backbone for creating a smooth single-page application that does not require a refresh when a user updates their garage by adding a new car or deleting a car from their garage. `fetch()` allows JavaScript to make calls to the server and pull the appropriate information from the back-end API. Then, the DOM can be properly manipulated to create a new "car card," that is added to the driver's garage or a "car card," can be deleted from the driver's garage.
