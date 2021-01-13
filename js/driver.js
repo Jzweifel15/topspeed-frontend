@@ -15,10 +15,10 @@ class Driver
     return Driver.allDrivers;
   }
 
-  // Fetch Single Driver from Back-end
-  static fetchDriver()
+  // Fetch All Drivers from Back-end
+  static fetchDrivers()
   {
-    return fetch("http://localhost:3000/drivers/1", {
+    return fetch("http://localhost:3000/drivers", {
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -34,20 +34,162 @@ class Driver
         return response.text().then(error => Promise.reject(error));
       }
     })
-    .then(driver => {
-      let driverObj = {
-        "id": driver.data.id,
-        "name": driver.data.attributes.name,
-        "email": driver.data.attributes.email
-      }
+    .then(drivers => {
+      drivers.forEach(attrs => {
+        new Driver(attrs);
+      });
+    })
+  }
 
-      let currentDriver = new Driver(driverObj);
-
-      for (let i = 0; i < driver.data.relationships.cars.data.length; i++)
+  // Fetch Single Driver from Back-end
+  static fetchDriver(driverEmail)
+  {
+    let currentDriver = Driver.all.find(driver => {
+      if (driver.email.trim() === driverEmail.trim())
       {
-        currentDriver.cars.push(driver.data.relationships.cars.data[i]);
-        Driver.render(driver.data.relationships.cars.data[i].id);
+        return driver;
       }
+    });
+
+    return fetch(`http://localhost:3000/drivers/${currentDriver.id}`, {
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      if (response.ok)
+      {
+        return response.json();
+      }
+      else 
+      {
+        return response.text().then(error => Promise.reject(error));
+      }
+    })
+    .then(driverAttrs => {
+      for (let i = 0; i < driverAttrs.data.relationships.cars.data.length; i++)
+      {
+        currentDriver.cars.push(driverAttrs.data.relationships.cars.data[i].id);
+        Driver.render(driverAttrs.data.relationships.cars.data[i].id);
+      }
+    });
+  }
+
+  static createNewDriver(driverName, driverEmail)
+  {
+    return fetch("http://localhost:3000/drivers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        name: driverName,
+        email: driverEmail
+      })
+    })
+    .then(response => {
+      if (response.ok)
+      {
+        return response.json();
+      }
+      else 
+      {
+        return response.text().then(error => Promise.reject(error));
+      }
+    })
+    .then(driverAttrs => {
+      alert("Your account was successfully created. Thank you for subscribing.");
+    })
+  }
+
+  static addCar(driverEmail)
+  {
+    let selectedCar = function()
+    {
+      let modelSelectbox = document.getElementById("model-select");
+      let yearSelectbox = document.getElementById("year-select");
+  
+      for (let i = 0; i < Car.all.length; i++)
+      {
+        let currentCar = Car.all[i];
+        if (modelSelectbox.value === currentCar.model && yearSelectbox.value === currentCar.year)
+        {
+          return parseInt(currentCar.id);
+        }
+      }
+    }
+
+    let currentDriver = Driver.all.find(driver => {
+      if (driver.email.trim() === driverEmail.trim())
+      {
+        return driver;
+      }
+    });
+
+    return fetch(`http://localhost:3000/drivers_cars`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        car_id: selectedCar(),
+        driver_id: currentDriver.id
+      })
+    })
+    .then(response => {
+      if (response.ok)
+      {
+        return response.json();
+      }
+      else 
+      {
+        return response.text().then(error => Promise.reject(error));
+      }
+    })
+    .then(driversCarAttributes => {
+      let newCar = new DriversCar(driversCarAttributes);
+      Driver.render(newCar.car_id);
+    });
+
+  }
+
+  static deleteDriversCar(driverEmail, carId)
+  {
+
+    let currentDriver = Driver.all.find(driver => {
+      if (driver.email.trim() === driverEmail.trim())
+      {
+        return driver;
+      }
+    });
+
+    let driversCar = function() {
+      for (let i = 0; i < DriversCar.all.length; i++)
+      {
+        if (parseInt(DriversCar.all[i].driver_id) === parseInt(currentDriver.id) && 
+            parseInt(DriversCar.all[i].car_id) === parseInt(carId))
+        {
+          return DriversCar.all[i];
+        }
+      }
+    }
+
+    return fetch(`http://localhost:3000/drivers_cars/${driversCar().id}`, {
+      method: "DELETE",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .then(() => {
+      document.getElementById("cars-grid").innerHTML = "";
+      Driver.fetchDriver(driverEmail)
     });
   }
 

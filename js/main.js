@@ -1,12 +1,12 @@
-// let driversSection = document.getElementById("drivers-section");
-// let carsGrid3 = document.getElementById("cars-grid");
 let makeSelectbox = document.getElementById("make-select");
 let modelSelectbox = document.getElementById("model-select");
-let yearSelectbox = document.getElementById("year-select"); 
+let yearSelectbox = document.getElementById("year-select");
 
-document.addEventListener("DOMContentLoaded", function() {  
+let session = "";
+
+document.addEventListener("DOMContentLoaded", function() { 
   Car.fetchCars();
-  Driver.fetchDriver();
+  Driver.fetchDrivers();
   DriversCar.fetchDriversCars(); 
 });
 
@@ -56,18 +56,86 @@ modelSelectbox.addEventListener("input", function() {
   }
 });
 
+/**
+ * Listens for either submit button click when user is signing into an existing account
+ * or listens for when a user clicks the `Sign Up Here` link located at the bottom of 
+ * the form and renders the Sign Up Form
+ */
+document.getElementById("sign-in-form-container").addEventListener("click", function(e) {
+  e.preventDefault();
+  let signInBtnPressed = e.target.id === "submit-btn";
+  let signUpLinkedPressed = e.target.id === "sign-up-link";
+  
+  if (signInBtnPressed)
+  {
+    let driverEmail = document.getElementById("in-email");
+
+    if (String(driverEmail.value).trim() === "")
+    {
+      alert("Make sure to fill out all required fields.");
+    }
+    else 
+    {
+      session = String(driverEmail.value).trim();
+      Driver.fetchDriver(session);
+      document.getElementById("sign-in-form-container").className = "inactive";
+      document.getElementById("select-card").className = "active";
+    }
+  }
+  else if (signUpLinkedPressed)
+  {
+    document.getElementById("sign-in-form-container").className = "form-container inactive";
+    document.getElementById("sign-up-form-container").className = "form-container active";
+  }
+});
+
+/**
+ * Listens for either submit button click when user is signing up for a new account or
+ * listens for when a user clicks the `Sign In Here` link located at the bottom of the 
+ * form and renders the Sign In Form
+ */
+document.getElementById("sign-up-form-container").addEventListener("click", function(e) {
+  e.preventDefault();
+  let signUpBtnPressed = e.target.id === "submit-btn";
+  let signInLinkedPressed = e.target.id === "sign-in-link";
+  
+  if (signUpBtnPressed)
+  {
+    let driverName = document.getElementById("up-name");
+    let driverEmail = document.getElementById("up-email");
+
+    if (String(driverName.value).trim() === "" || 
+        String(driverEmail.value).trim() === "")
+    {
+      alert("Make sure to fill out all required fields.");
+    }
+    else 
+    {
+      session = String(driverEmail.value).trim();
+      Driver.createNewDriver(String(driverName.value).trim(), session);
+      document.getElementById("sign-up-form-container").className = "inactive";
+      document.getElementById("select-card").className = "active";
+    }
+  }
+  else if (signInLinkedPressed)
+  {
+    document.getElementById("sign-up-form-container").className = "form-container inactive";
+    document.getElementById("sign-in-form-container").className = "form-container active";
+  }
+});
+
 document.getElementById("new-car-form").addEventListener("submit", function(e) {
   e.preventDefault();
-  DriversCar.create();
+  Driver.addCar(session);
 });
 
 document.getElementById("cars-grid").addEventListener("click", function(e) {
+  e.stopPropagation();
   let deleteBtnPressed = e.target.className === "delete-btn fas fa-trash-alt fa-2x";
   if (deleteBtnPressed)
   {
     let id = event.target.parentElement.parentElement.id;
-    DriversCar.delete(id);
+    Driver.deleteDriversCar(session, id);
   }
 });
-
 

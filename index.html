@@ -30,7 +30,37 @@
           Build onto your own driver card by adding a new car.
         </p>
       </div>
-      <div class="select-card">
+
+      <div class="form-container active" id="sign-in-form-container">
+        <h2 class="form-header h-2">Sign In Here</h2>
+        <form id="sign-in-form">
+          <div class="form-control">
+            <input type="email" id="in-email" name="email" placeholder="Email" />
+          </div>
+          <input type="submit" id="submit-btn" value="Sign In" />
+        </form>
+        <p>
+          Not a Member of the Crew? <a id="sign-up-link">Sign Up Here</a>
+        </p>
+      </div>
+
+      <div class="form-container inactive" id="sign-up-form-container">
+        <h2 class="form-header h-2">Sign Up Here</h2>
+        <form id="sign-up-form">
+          <div class="form-control">
+            <input type="text" id="up-name" name="name" placeholder="Name" />
+          </div>
+          <div class="form-control">
+            <input type="email" id="up-email" name="email" placeholder="Email" />
+          </div>
+          <input type="submit" id="submit-btn" value="Sign Up">
+        </form>
+        <p>
+          Already a Member of the Crew? <a id="sign-in-link">Sign In Here</a>
+        </p>
+      </div>
+
+      <div class="inactive" id="select-card">
         <form id="new-car-form">
           <h2>Select a Car</h2>
           <div class="grid-3">
@@ -43,7 +73,7 @@
             <select name="year" id="year-select">
               <option value="year">Choose Year</option>
             </select>
-            <input type="submit" value="Add">
+            <input type="submit" id="add-btn" value="Add">
           </div>
         </form>
       </div>
@@ -55,19 +85,6 @@
       <!-- Add driver's cars here -->
       <h2>Your Garage</h2>
       <div id="cars-grid">
-        <div class="car card" data-set="1" id="1">
-          <h3>2014-2019 Chevrolet Corvette</h3>
-          <img src="https://cnet3.cbsistatic.com/img/DFuqg0a40zWyRglUe9kXOQOe_JU=/1200x630/2015/10/23/ad778fd8-531a-41b7-8cf5-0230edcdedbf/ep76otrcorvettestill2.jpg" alt="">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <div class="car-card icons">
-            <i class="fas fa-money-check-alt fa-2x"></i><strong>$75,000</strong>
-            <i class="fas fa-tachometer-alt fa-2x"></i><strong>195mph</strong>
-            <i class="delete-btn fas fa-trash-alt fa-2x"></i>
-          </div>
-        </div>
       </div>
     </div>
   </section>

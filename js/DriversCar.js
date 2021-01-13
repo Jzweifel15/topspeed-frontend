@@ -44,55 +44,6 @@ class DriversCar
     })
   }
 
-  // Add new Car for Driver to database
-  static create()
-  {
-    let selectedCar = function()
-    {
-      let modelSelectbox = document.getElementById("model-select");
-      let yearSelectbox = document.getElementById("year-select");
-  
-      for (let i = 0; i < Car.all.length; i++)
-      {
-        let currentCar = Car.all[i];
-        if (modelSelectbox.value === currentCar.model && yearSelectbox.value === currentCar.year)
-        {
-          return currentCar.id;
-        }
-      }
-    }
-    
-    return fetch("http://localhost:3000/drivers_cars", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({
-        car_id: selectedCar(),
-        driver_id: 1
-      })
-    })
-    .then(response => {
-      if (response.ok)
-      {
-        return response.json();
-      }
-      else 
-      {
-        return response.text().then(error => Promise.reject(error));
-      }
-    })
-    .then(driversCarAttributes => {
-      let newCar = new DriversCar(driversCarAttributes);
-      Driver.render(newCar.car_id);
-      window.location.reload();
-    })
-    .catch(error => {
-      console.error("Error: ", error);
-    });
-  }
-
   static delete(carId)
   {
     let driverCarId = function() {

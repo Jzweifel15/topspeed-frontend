@@ -38,6 +38,21 @@ h1, h2
   font-weight: 300;
 }
 
+.h-2 
+{
+  font-size: 2rem;
+}
+
+.h-3
+{
+  font-size: 1.75
+}
+
+.h-4 
+{
+  font-size: 1.5rem;
+}
+
 img 
 {
   width: 100%;
@@ -78,17 +93,22 @@ img
   height: 100%;
 }
 
+.active 
+{
+  display: block;
+}
+
+.inactive 
+{
+  display: none;
+}
+
 /* Navbar */
 .navbar 
 {
   background-color: var(--primary-color);
   color: #fff;
   height: 70px;
-}
-
-.navbar ul 
-{
-  display: flex;
 }
 
 .navbar .flex 
@@ -134,12 +154,13 @@ img
   gap: 30px;
 }
 
-.select-card 
+#select-card 
 {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   position: relative;
+  top: 50px;
   height: 300px;
   width: 450px;
   padding: 40px;
@@ -147,20 +168,20 @@ img
   justify-self: flex-end;
 }
 
-.select-card h2 
+#select-card h2 
 {
   color: #333;
   margin-bottom: 25px;
 }
 
-.select-card select 
+#select-card select 
 {
   width: 125px;
   height: 25px;
   margin: 20px 0;
 }
 
-.select-card form input[type="submit"] 
+#select-card form input[type="submit"] 
 {
   display: inline-block;
   cursor: pointer;
@@ -172,7 +193,7 @@ img
   background-color: var(--primary-color);
 }
 
-.select-card form input[type="submit"]:hover 
+#select-card form input[type="submit"]:hover 
 {
   transform: scale(0.98);
 }
@@ -243,6 +264,78 @@ img
 .car-card a i 
 {
   color: #fff;
+}
+
+.form-container
+{
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 50px;
+  height: 350px;
+  width: 500px;
+  padding: 40px;
+  z-index: 100;
+}
+
+.form-container .form-header {
+  margin: 10px 0;
+}
+
+.form-container .form-control
+{
+  margin: 30px 0;
+}
+
+.form-container form input[type="text"],
+.form-container form input[type="email"]
+{
+  border: 0;
+  border-bottom: 1px solid #b4becb;
+  width: 100%;
+  padding: 3px;
+  font-size: 16px;
+}
+
+.form-container form input[type="submit"]
+{
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px 30px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+}
+
+.form-container p {
+  font-size: 16px;
+}
+
+.form-container a {
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--primary-color);
+}
+
+.form-container a:hover 
+{
+  border-bottom: 2px solid var(--light-color);
+  margin-bottom: 3px;
+}
+
+.form-container input:focus 
+{
+  outline: none;
+}
+
+#select-card form input[type="submit"]:hover,
+.form-container form input[type="submit"]:hover
+{
+  transform: scale(0.98);
 }
 
 /* Media Queries for Responsive Design */
