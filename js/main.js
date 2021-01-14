@@ -124,9 +124,27 @@ document.getElementById("sign-up-form-container").addEventListener("click", func
   }
 });
 
+/**
+ * Listener for the submit button that adds a new car to the driver's collection/garage
+ */
 document.getElementById("new-car-form").addEventListener("submit", function(e) {
   e.preventDefault();
-  Driver.addCar(session);
+  let selectedCar = function()
+  {
+    let modelSelectbox = document.getElementById("model-select");
+    let yearSelectbox = document.getElementById("year-select");
+
+    for (let i = 0; i < Car.all.length; i++)
+    {
+      let currentCar = Car.all[i];
+      if (modelSelectbox.value === currentCar.model && yearSelectbox.value === currentCar.year)
+      {
+        return parseInt(currentCar.id);
+      }
+    }
+  }
+  console.log(selectedCar());
+  Driver.addCar(session, selectedCar());
 });
 
 document.getElementById("cars-grid").addEventListener("click", function(e) {

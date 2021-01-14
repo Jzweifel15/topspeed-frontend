@@ -101,25 +101,31 @@ class Driver
     })
     .then(driverAttrs => {
       alert("Your account was successfully created. Thank you for subscribing.");
-    })
+      let driverObj = {
+        id: driverAttrs.data.id,
+        name: driverAttrs.data.attributes.name,
+        email: driverAttrs.data.attributes.email
+      }
+      new Driver(driverObj);
+    });
   }
 
-  static addCar(driverEmail)
+  static addCar(driverEmail, carId)
   {
-    let selectedCar = function()
-    {
-      let modelSelectbox = document.getElementById("model-select");
-      let yearSelectbox = document.getElementById("year-select");
+    // let selectedCar = function()
+    // {
+    //   let modelSelectbox = document.getElementById("model-select");
+    //   let yearSelectbox = document.getElementById("year-select");
   
-      for (let i = 0; i < Car.all.length; i++)
-      {
-        let currentCar = Car.all[i];
-        if (modelSelectbox.value === currentCar.model && yearSelectbox.value === currentCar.year)
-        {
-          return parseInt(currentCar.id);
-        }
-      }
-    }
+    //   for (let i = 0; i < Car.all.length; i++)
+    //   {
+    //     let currentCar = Car.all[i];
+    //     if (modelSelectbox.value === currentCar.model && yearSelectbox.value === currentCar.year)
+    //     {
+    //       return parseInt(currentCar.id);
+    //     }
+    //   }
+    // }
 
     let currentDriver = Driver.all.find(driver => {
       if (driver.email.trim() === driverEmail.trim())
@@ -135,7 +141,7 @@ class Driver
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        car_id: selectedCar(),
+        car_id: carId,
         driver_id: currentDriver.id
       })
     })
