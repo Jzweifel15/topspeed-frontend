@@ -186,7 +186,7 @@ img
   display: inline-block;
   cursor: pointer;
   margin: 20px 0;
-  padding: 10px 30px;
+  padding: 15px 35px;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -196,6 +196,17 @@ img
 #select-card form input[type="submit"]:hover 
 {
   transform: scale(0.98);
+}
+
+#select-card #sign-out-link 
+{
+  color: var(--primary-color);
+}
+
+#select-card #sign-out-link:hover
+{
+  border-bottom: 2px solid var(--light-color);
+  margin-bottom: 3px;
 }
 
 .welcome::before,
